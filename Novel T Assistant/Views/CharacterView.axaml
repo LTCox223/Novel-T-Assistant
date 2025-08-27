@@ -1,0 +1,152 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="Novel_T_Assistant.CharacterView"
+			 xmlns:vm="using:Novel_T_Assistant.ViewModels"
+             x:DataType="vm:CharacterViewModel"
+             x:CompileBindings="True">
+
+	<Design.DataContext>
+		<!-- Design-time data for preview -->
+		<vm:CharacterViewModel />
+	</Design.DataContext>
+
+	<ScrollViewer>
+		<StackPanel Margin="20" Spacing="15">
+
+			<!-- Header -->
+			<TextBlock Text="Create Character"
+                       FontSize="24"
+                       FontWeight="Bold"
+                       Margin="0,0,0,20"/>
+
+			<!-- Character ID (read-only, for debugging) -->
+			<StackPanel>
+				<TextBlock Text="ID:" FontWeight="SemiBold" Margin="0,0,0,5"/>
+				<TextBox Text="{CompiledBinding Id}"
+                         IsReadOnly="True"
+                         Background="#F5F5F5"
+                         Foreground="#666"/>
+			</StackPanel>
+
+			<!-- Character Name -->
+			<StackPanel>
+				<TextBlock Text="Name*" FontWeight="SemiBold" Margin="0,0,0,5"/>
+				<TextBox Text="{CompiledBinding Name}"
+                         Watermark="Enter character name..."
+                         FontSize="14"/>
+			</StackPanel>
+
+			<!-- Aliases Section -->
+			<StackPanel>
+				<TextBlock Text="Aliases" FontWeight="SemiBold" Margin="0,0,0,10"/>
+
+				<!-- Add new alias -->
+				<Grid ColumnDefinitions="*,Auto" Margin="0,0,0,10">
+					<TextBox Grid.Column="0"
+                             Text="{CompiledBinding NewAlias}"
+                             Watermark="Add alias (Johnny, Detective Smith...)"
+                             KeyDown="OnAliasKeyDown"/>
+					<Button Grid.Column="1"
+                            Content="Add"
+                            Margin="5,0,0,0"
+                            Click="OnAddAliasClick"/>
+				</Grid>
+
+				<!-- List of aliases -->
+				<ItemsControl ItemsSource="{CompiledBinding Aliases}">
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<Border Background="#E3F2FD"
+                                    CornerRadius="15"
+                                    Padding="8,4"
+                                    Margin="0,0,5,5">
+								<Grid ColumnDefinitions="*,Auto">
+									<TextBlock Grid.Column="0"
+                                               Text="{Binding}"
+                                               VerticalAlignment="Center"/>
+									<Button Grid.Column="1"
+                                            Content="×"
+                                            FontSize="12"
+                                            Margin="5,0,0,0"
+                                            Padding="4,2"
+                                            Background="Transparent"
+                                            Click="OnRemoveAliasClick"
+                                            CommandParameter="{Binding}"/>
+								</Grid>
+							</Border>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+					<ItemsControl.ItemsPanel>
+						<ItemsPanelTemplate>
+							<WrapPanel Orientation="Horizontal"/>
+						</ItemsPanelTemplate>
+					</ItemsControl.ItemsPanel>
+				</ItemsControl>
+			</StackPanel>
+			<!-- Tags Section -->
+			<StackPanel>
+				<TextBlock Text="Tags" FontWeight="SemiBold" Margin="0,0,0,10"/>
+
+				<!-- Add new tag -->
+				<Grid ColumnDefinitions="*,Auto" Margin="0,0,0,10">
+					<TextBox Grid.Column="0"
+                             Text="{CompiledBinding NewTag}"
+                             Watermark="Add tag (protagonist, detective...)"
+                             KeyDown="OnTagKeyDown"/>
+					<Button Grid.Column="1"
+                            Content="Add"
+                            Margin="5,0,0,0"
+                            Click="OnAddTagClick"/>
+				</Grid>
+
+				<!-- List of tags -->
+				<ItemsControl ItemsSource="{CompiledBinding Tags}">
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<Border Background="#FFF3E0"
+                                    CornerRadius="15"
+                                    Padding="8,4"
+                                    Margin="0,0,5,5">
+								<Grid ColumnDefinitions="*,Auto">
+									<TextBlock Grid.Column="0"
+                                               Text="{Binding}"
+                                               VerticalAlignment="Center"/>
+									<Button Grid.Column="1"
+                                            Content="×"
+                                            FontSize="12"
+                                            Margin="5,0,0,0"
+                                            Padding="4,2"
+                                            Background="Transparent"
+                                            Click="OnRemoveTagClick"
+                                            CommandParameter="{Binding}"/>
+								</Grid>
+							</Border>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+					<ItemsControl.ItemsPanel>
+						<ItemsPanelTemplate>
+							<WrapPanel Orientation="Horizontal"/>
+						</ItemsPanelTemplate>
+					</ItemsControl.ItemsPanel>
+				</ItemsControl>
+			</StackPanel>
+
+			<!-- Action Buttons -->
+			<StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        Spacing="10"
+                        Margin="0,20,0,0">
+				<Button Content="Cancel"
+                        Padding="15,8"
+                        Click="OnCancelClick"/>
+				<Button Content="Save Character"
+                        Padding="15,8"
+                        Background="#4CAF50"
+                        Foreground="White"
+                        Click="OnSaveClick"/>
+			</StackPanel>
+
+		</StackPanel>
+	</ScrollViewer>
+
+</UserControl>
