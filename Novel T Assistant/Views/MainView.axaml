@@ -3,15 +3,414 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:Novel_T_Assistant.ViewModels"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="700"
              x:Class="Novel_T_Assistant.Views.MainView"
              x:DataType="vm:MainViewModel">
+	
 	<Design.DataContext>
-		<!-- This only sets the DataContext for the previewer in an IDE,
-         to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
 		<vm:MainViewModel />
 	</Design.DataContext>
-	<StackPanel Margin="20">
-		<Button Click="ClickHandler">Create Character!</Button>
-	</StackPanel>
+
+	<Grid>
+		<!-- Background gradient -->
+		<Grid.Background>
+			<LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+				<GradientStop Color="#F5F7FA" Offset="0"/>
+				<GradientStop Color="#E9ECEF" Offset="1"/>
+			</LinearGradientBrush>
+		</Grid.Background>
+
+		<!-- Main Layout -->
+		<Grid RowDefinitions="Auto,*,Auto">
+			
+			<!-- Header Section -->
+			<Border Grid.Row="0" 
+					Background="White" 
+					Padding="30,20"
+					BoxShadow="0 2 10 0 #10000000">
+				<Grid ColumnDefinitions="Auto,*,Auto">
+					<!-- App Title and Logo Area -->
+					<StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="15">
+						<!-- Placeholder for logo/icon -->
+						<Border Width="40" Height="40" 
+								CornerRadius="8"
+								Background="#6366F1">
+							<TextBlock Text="NT" 
+									   Foreground="White"
+									   FontWeight="Bold"
+									   FontSize="18"
+									   HorizontalAlignment="Center"
+									   VerticalAlignment="Center"/>
+						</Border>
+						
+						<StackPanel VerticalAlignment="Center">
+							<TextBlock Text="Novel T Assistant" 
+									   FontSize="20" 
+									   FontWeight="SemiBold"
+									   Foreground="#1F2937"/>
+							<TextBlock Text="Your Creative Writing Companion" 
+									   FontSize="12" 
+									   Foreground="#6B7280"/>
+						</StackPanel>
+					</StackPanel>
+
+					<!-- Current Project Info -->
+					<StackPanel Grid.Column="1" 
+							   HorizontalAlignment="Center" 
+							   VerticalAlignment="Center"
+							   Orientation="Horizontal"
+							   Spacing="8">
+						<TextBlock Text="Current Project:" 
+								   Foreground="#6B7280"
+								   VerticalAlignment="Center"/>
+						<ComboBox MinWidth="200"
+								  SelectedIndex="0">
+							<ComboBoxItem>New Project</ComboBoxItem>
+							<ComboBoxItem>My First Novel</ComboBoxItem>
+						</ComboBox>
+						<Button Content="⚙"
+							   Padding="8,4"
+							   ToolTip.Tip="Project Settings"/>
+					</StackPanel>
+
+					<!-- Quick Actions -->
+					<StackPanel Grid.Column="2" 
+							   Orientation="Horizontal" 
+							   Spacing="10">
+						<Button Content="📁 Open Project"
+							   Padding="12,8"
+							   Background="#F3F4F6"/>
+						<Button Content="➕ New Project"
+							   Padding="12,8"
+							   Background="#6366F1"
+							   Foreground="White"/>
+					</StackPanel>
+				</Grid>
+			</Border>
+
+			<!-- Main Content Area -->
+			<ScrollViewer Grid.Row="1" Padding="30">
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="Auto"/>
+					</Grid.RowDefinitions>
+
+					<!-- Quick Stats Dashboard -->
+					<Grid Grid.Row="0" ColumnDefinitions="*,*,*,*" Margin="0,0,0,30">
+						<Grid.Styles>
+							<Style Selector="Border.stat-card">
+								<Setter Property="Background" Value="White"/>
+								<Setter Property="CornerRadius" Value="12"/>
+								<Setter Property="Padding" Value="20"/>
+								<Setter Property="Margin" Value="0,0,15,0"/>
+								<Setter Property="BoxShadow" Value="0 1 3 0 #10000000"/>
+							</Style>
+						</Grid.Styles>
+
+						<Border Grid.Column="0" Classes="stat-card">
+							<StackPanel>
+								<TextBlock Text="📝" FontSize="24" Margin="0,0,0,10"/>
+								<TextBlock Text="Word Count" 
+										   FontSize="12" 
+										   Foreground="#6B7280"
+										   Margin="0,0,0,5"/>
+								<TextBlock Text="0" 
+										   FontSize="28" 
+										   FontWeight="Bold"
+										   Foreground="#1F2937"/>
+							</StackPanel>
+						</Border>
+
+						<Border Grid.Column="1" Classes="stat-card">
+							<StackPanel>
+								<TextBlock Text="📚" FontSize="24" Margin="0,0,0,10"/>
+								<TextBlock Text="Chapters" 
+										   FontSize="12" 
+										   Foreground="#6B7280"
+										   Margin="0,0,0,5"/>
+								<TextBlock Text="0" 
+										   FontSize="28" 
+										   FontWeight="Bold"
+										   Foreground="#1F2937"/>
+							</StackPanel>
+						</Border>
+
+						<Border Grid.Column="2" Classes="stat-card">
+							<StackPanel>
+								<TextBlock Text="👥" FontSize="24" Margin="0,0,0,10"/>
+								<TextBlock Text="Characters" 
+										   FontSize="12" 
+										   Foreground="#6B7280"
+										   Margin="0,0,0,5"/>
+								<TextBlock Text="0" 
+										   FontSize="28" 
+										   FontWeight="Bold"
+										   Foreground="#1F2937"/>
+							</StackPanel>
+						</Border>
+
+						<Border Grid.Column="3" Classes="stat-card" Margin="0">
+							<StackPanel>
+								<TextBlock Text="🗺️" FontSize="24" Margin="0,0,0,10"/>
+								<TextBlock Text="Locations" 
+										   FontSize="12" 
+										   Foreground="#6B7280"
+										   Margin="0,0,0,5"/>
+								<TextBlock Text="0" 
+										   FontSize="28" 
+										   FontWeight="Bold"
+										   Foreground="#1F2937"/>
+							</StackPanel>
+						</Border>
+					</Grid>
+
+					<!-- Primary Actions Section -->
+					<StackPanel Grid.Row="1" Margin="0,0,0,30">
+						<TextBlock Text="Start Writing" 
+								   FontSize="18" 
+								   FontWeight="SemiBold"
+								   Foreground="#1F2937"
+								   Margin="0,0,0,15"/>
+						
+						<Grid ColumnDefinitions="*,*" RowDefinitions="Auto">
+							<Grid.Styles>
+								<Style Selector="Border.action-card">
+									<Setter Property="Background" Value="White"/>
+									<Setter Property="CornerRadius" Value="12"/>
+									<Setter Property="Padding" Value="25"/>
+									<Setter Property="Margin" Value="0,0,15,0"/>
+									<Setter Property="BoxShadow" Value="0 1 3 0 #10000000"/>
+									<Setter Property="Cursor" Value="Hand"/>
+								</Style>
+								<Style Selector="Border.action-card:pointerover">
+									<Setter Property="BoxShadow" Value="0 4 12 0 #20000000"/>
+									<Setter Property="RenderTransform" Value="translateY(-2px)"/>
+								</Style>
+							</Grid.Styles>
+
+							<!-- Text Editor Card -->
+							<Border Grid.Column="0" 
+									Classes="action-card"
+									PointerPressed="OnTextEditorClick">
+								<Grid RowDefinitions="Auto,Auto,Auto">
+									<Border Grid.Row="0"
+											Width="50" Height="50"
+											CornerRadius="10"
+											Background="#EEF2FF"
+											HorizontalAlignment="Left"
+											Margin="0,0,0,15">
+										<TextBlock Text="✍️" 
+												   FontSize="24"
+												   HorizontalAlignment="Center"
+												   VerticalAlignment="Center"/>
+									</Border>
+									
+									<TextBlock Grid.Row="1"
+											   Text="Text Editor" 
+											   FontSize="16" 
+											   FontWeight="SemiBold"
+											   Foreground="#1F2937"
+											   Margin="0,0,0,8"/>
+									
+									<TextBlock Grid.Row="2"
+											   Text="Write your story with smart auto-linking to characters, locations, and world elements."
+											   TextWrapping="Wrap"
+											   Foreground="#6B7280"
+											   FontSize="13"/>
+								</Grid>
+							</Border>
+
+							<!-- Chapter Planning Card -->
+							<Border Grid.Column="1" 
+									Classes="action-card"
+									Margin="0"
+									PointerPressed="OnChapterPlannerClick">
+								<Grid RowDefinitions="Auto,Auto,Auto">
+									<Border Grid.Row="0"
+											Width="50" Height="50"
+											CornerRadius="10"
+											Background="#F0FDF4"
+											HorizontalAlignment="Left"
+											Margin="0,0,0,15">
+										<TextBlock Text="📋" 
+												   FontSize="24"
+												   HorizontalAlignment="Center"
+												   VerticalAlignment="Center"/>
+									</Border>
+									
+									<TextBlock Grid.Row="1"
+											   Text="Chapter Planning" 
+											   FontSize="16" 
+											   FontWeight="SemiBold"
+											   Foreground="#1F2937"
+											   Margin="0,0,0,8"/>
+									
+									<TextBlock Grid.Row="2"
+											   Text="Outline your story structure, plan chapters, and track your narrative arc."
+											   TextWrapping="Wrap"
+											   Foreground="#6B7280"
+											   FontSize="13"/>
+								</Grid>
+							</Border>
+						</Grid>
+					</StackPanel>
+
+					<!-- World Building Section -->
+					<StackPanel Grid.Row="2" Margin="0,0,0,30">
+						<TextBlock Text="World Building Codex" 
+								   FontSize="18" 
+								   FontWeight="SemiBold"
+								   Foreground="#1F2937"
+								   Margin="0,0,0,15"/>
+						
+						<Grid ColumnDefinitions="*,*,*,*" RowDefinitions="Auto">
+							<Grid.Styles>
+								<Style Selector="Border.codex-card">
+									<Setter Property="Background" Value="White"/>
+									<Setter Property="CornerRadius" Value="12"/>
+									<Setter Property="Padding" Value="20"/>
+									<Setter Property="Height" Value="140"/>
+									<Setter Property="Margin" Value="0,0,15,0"/>
+									<Setter Property="BoxShadow" Value="0 1 3 0 #10000000"/>
+									<Setter Property="Cursor" Value="Hand"/>
+								</Style>
+								<Style Selector="Border.codex-card:pointerover">
+									<Setter Property="BoxShadow" Value="0 4 12 0 #20000000"/>
+									<Setter Property="RenderTransform" Value="translateY(-2px)"/>
+								</Style>
+							</Grid.Styles>
+
+							<!-- Characters -->
+							<Border Grid.Column="0" 
+									Classes="codex-card"
+									PointerPressed="OnCharactersClick">
+								<StackPanel>
+									<TextBlock Text="👥" FontSize="28" Margin="0,0,0,10"/>
+									<TextBlock Text="Characters" 
+											   FontSize="14" 
+											   FontWeight="SemiBold"
+											   Foreground="#1F2937"
+											   Margin="0,0,0,5"/>
+									<TextBlock Text="Create and manage your cast"
+											   TextWrapping="Wrap"
+											   Foreground="#6B7280"
+											   FontSize="12"/>
+								</StackPanel>
+							</Border>
+
+							<!-- Locations -->
+							<Border Grid.Column="1" 
+									Classes="codex-card"
+									PointerPressed="OnLocationsClick">
+								<StackPanel>
+									<TextBlock Text="🗺️" FontSize="28" Margin="0,0,0,10"/>
+									<TextBlock Text="Locations" 
+											   FontSize="14" 
+											   FontWeight="SemiBold"
+											   Foreground="#1F2937"
+											   Margin="0,0,0,5"/>
+									<TextBlock Text="Build your world's geography"
+											   TextWrapping="Wrap"
+											   Foreground="#6B7280"
+											   FontSize="12"/>
+								</StackPanel>
+							</Border>
+
+							<!-- Events -->
+							<Border Grid.Column="2" 
+									Classes="codex-card"
+									PointerPressed="OnEventsClick">
+								<StackPanel>
+									<TextBlock Text="📅" FontSize="28" Margin="0,0,0,10"/>
+									<TextBlock Text="Events" 
+											   FontSize="14" 
+											   FontWeight="SemiBold"
+											   Foreground="#1F2937"
+											   Margin="0,0,0,5"/>
+									<TextBlock Text="Track timeline and history"
+											   TextWrapping="Wrap"
+											   Foreground="#6B7280"
+											   FontSize="12"/>
+								</StackPanel>
+							</Border>
+
+							<!-- Items/Objects -->
+							<Border Grid.Column="3" 
+									Classes="codex-card"
+									Margin="0"
+									PointerPressed="OnItemsClick">
+								<StackPanel>
+									<TextBlock Text="🔮" FontSize="28" Margin="0,0,0,10"/>
+									<TextBlock Text="Items" 
+											   FontSize="14" 
+											   FontWeight="SemiBold"
+											   Foreground="#1F2937"
+											   Margin="0,0,0,5"/>
+									<TextBlock Text="Catalog important objects"
+											   TextWrapping="Wrap"
+											   Foreground="#6B7280"
+											   FontSize="12"/>
+								</StackPanel>
+							</Border>
+						</Grid>
+					</StackPanel>
+
+					<!-- Recent Activity -->
+					<Border Grid.Row="3" 
+							Background="White"
+							CornerRadius="12"
+							Padding="25"
+							BoxShadow="0 1 3 0 #10000000">
+						<Grid RowDefinitions="Auto,*">
+							<TextBlock Grid.Row="0"
+									   Text="Recent Activity" 
+									   FontSize="16" 
+									   FontWeight="SemiBold"
+									   Foreground="#1F2937"
+									   Margin="0,0,0,15"/>
+							
+							<StackPanel Grid.Row="1">
+								<TextBlock Text="No recent activity"
+										   Foreground="#9CA3AF"
+										   FontStyle="Italic"
+										   HorizontalAlignment="Center"
+										   Margin="0,20"/>
+							</StackPanel>
+						</Grid>
+					</Border>
+				</Grid>
+			</ScrollViewer>
+
+			<!-- Status Bar -->
+			<Border Grid.Row="2" 
+					Background="#F9FAFB" 
+					Padding="20,10"
+					BorderBrush="#E5E7EB"
+					BorderThickness="0,1,0,0">
+				<Grid ColumnDefinitions="*,Auto">
+					<StackPanel Grid.Column="0" 
+							   Orientation="Horizontal" 
+							   Spacing="20">
+						<TextBlock Text="Ready" 
+								   Foreground="#6B7280"
+								   FontSize="12"/>
+						<TextBlock Text="•" 
+								   Foreground="#D1D5DB"
+								   FontSize="12"/>
+						<TextBlock Text="Autosave: On" 
+								   Foreground="#10B981"
+								   FontSize="12"/>
+					</StackPanel>
+					
+					<TextBlock Grid.Column="1"
+							   Text="Version 1.0.0"
+							   Foreground="#9CA3AF"
+							   FontSize="12"/>
+				</Grid>
+			</Border>
+		</Grid>
+	</Grid>
 </UserControl>
