@@ -88,10 +88,16 @@ namespace Novel_T_Assistant.ViewModels
         // Commands for adding items
         public void AddAlias()
         {
-            if (!string.IsNullOrWhiteSpace(NewAlias) && !Aliases.Contains(NewAlias))
+            if (!string.IsNullOrWhiteSpace(NewAlias))
             {
-                Aliases.Add(NewAlias.Trim());
-                _character.Aliases.Add(NewAlias.Trim());
+                Aliases.Clear();
+                char[] delimiters = { ',', ' ' };
+                string[] strings = NewAlias.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
+                foreach (string s in strings)
+                {
+                    Aliases.Add(s);
+                    _character.Aliases.Add(s);
+                }
                 NewAlias = "";
             }
         }
@@ -104,10 +110,15 @@ namespace Novel_T_Assistant.ViewModels
 
         public void AddTag()
         {
-            if (!string.IsNullOrWhiteSpace(NewTag) && !Tags.Contains(NewTag))
+            if (!string.IsNullOrWhiteSpace(NewTag))
             {
-                Tags.Add(NewTag.Trim());
-                _character.Tags.Add(NewTag.Trim());
+                Tags.Clear();
+                string[] strings = NewTag.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+                foreach (string s in strings)
+                {
+                    Tags.Add(s);
+                    _character.Tags.Add(s);
+                }
                 NewTag = "";
             }
         }

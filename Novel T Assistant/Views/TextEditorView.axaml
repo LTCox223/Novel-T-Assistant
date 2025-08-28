@@ -1,0 +1,311 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:Novel_T_Assistant.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="700"
+             x:Class="Novel_T_Assistant.Views.TextEditorView"
+             x:DataType="vm:TextEditorViewModel">
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<!-- Toolbar -->
+			<RowDefinition Height="Auto"/>
+			<!-- Format Bar -->
+			<RowDefinition Height="*"/>
+			<!-- Editor -->
+			<RowDefinition Height="Auto"/>
+			<!-- Status Bar -->
+		</Grid.RowDefinitions>
+		
+
+		<!-- Main Toolbar -->
+		<Border Grid.Row="0"
+                Background="#F8F9FA"
+                Padding="10"
+                BorderBrush="#DEE2E6"
+                BorderThickness="0,0,0,1">
+			<Grid ColumnDefinitions="Auto,Auto,*,Auto">
+				<!-- File Operations -->
+				<StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="5">
+					<Button Name="NewButton"
+                            Click="OnNewDocument"
+                            ToolTip.Tip="New Document (Ctrl+N)"
+                            Padding="8">
+						<TextBlock Text="📄 New" />
+					</Button>
+					<Button Name="OpenButton"
+                            Click="OnOpenDocument"
+                            ToolTip.Tip="Open Document (Ctrl+O)"
+                            Padding="8">
+						<TextBlock Text="📁 Open" />
+					</Button>
+					<Button Name="SaveButton"
+                            Click="OnSaveDocument"
+                            ToolTip.Tip="Save (Ctrl+S)"
+                            Padding="8">
+						<TextBlock Text="💾 Save" />
+					</Button>
+					<Rectangle Width="1" Fill="#DEE2E6" Margin="5,0"/>
+				</StackPanel>
+
+				<!-- Export Options -->
+				<StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="5">
+					<Button Name="ExportRtfButton"
+                            Click="OnExportRtf"
+                            ToolTip.Tip="Export as RTF (Word/LibreOffice compatible)"
+                            Padding="8">
+						<TextBlock Text="📤 Export RTF" />
+					</Button>
+					<Button Name="ExportHtmlButton"
+                            Click="OnExportHtml"
+                            ToolTip.Tip="Export as HTML"
+                            Padding="8">
+						<TextBlock Text="🌐 Export HTML" />
+					</Button>
+					<Button Name="ExportMarkdownButton"
+                            Click="OnExportMarkdown"
+                            ToolTip.Tip="Export as Markdown"
+                            Padding="8">
+						<TextBlock Text="📝 Export MD" />
+					</Button>
+					<Rectangle Width="1" Fill="#DEE2E6" Margin="5,0"/>
+				</StackPanel>
+
+				<!-- Document Title -->
+				<StackPanel Grid.Column="2"
+                           Orientation="Horizontal"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Spacing="10">
+					<TextBlock Text="Title:" VerticalAlignment="Center"/>
+					<TextBox Name="DocumentTitle"
+                             Text="{Binding DocumentTitle}"
+                             Width="300"
+                             Watermark="Enter document title..."/>
+				</StackPanel>
+
+				<!-- View Options -->
+				<StackPanel Grid.Column="3" Orientation="Horizontal" Spacing="5">
+					<Button Name="ZoomOutButton"
+                            Click="OnZoomOut"
+                            ToolTip.Tip="Zoom Out"
+                            Padding="8">
+						<TextBlock Text="🔍-" />
+					</Button>
+					<TextBlock Text="{Binding ZoomLevel}"
+                              VerticalAlignment="Center"
+                              Margin="5,0"/>
+					<Button Name="ZoomInButton"
+                            Click="OnZoomIn"
+                            ToolTip.Tip="Zoom In"
+                            Padding="8">
+						<TextBlock Text="🔍+" />
+					</Button>
+				</StackPanel>
+			</Grid>
+		</Border>
+
+		<!-- Formatting Toolbar -->
+		<Border Grid.Row="1"
+                Background="White"
+                Padding="10"
+                BorderBrush="#DEE2E6"
+                BorderThickness="0,0,0,1">
+			<Grid ColumnDefinitions="Auto,Auto,Auto,Auto,*">
+				<!-- Text Style -->
+				<StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="5">
+					<ComboBox Name="FontFamilyCombo"
+                              Width="150"
+                              SelectedIndex="0">
+						<ComboBoxItem>Times New Roman</ComboBoxItem>
+						<ComboBoxItem>Arial</ComboBoxItem>
+						<ComboBoxItem>Calibri</ComboBoxItem>
+						<ComboBoxItem>Georgia</ComboBoxItem>
+						<ComboBoxItem>Verdana</ComboBoxItem>
+						<ComboBoxItem>Courier New</ComboBoxItem>
+					</ComboBox>
+
+					<ComboBox Name="FontSizeCombo"
+                              Width="70"
+                              SelectedIndex="3">
+						<ComboBoxItem>10</ComboBoxItem>
+						<ComboBoxItem>11</ComboBoxItem>
+						<ComboBoxItem>12</ComboBoxItem>
+						<ComboBoxItem>14</ComboBoxItem>
+						<ComboBoxItem>16</ComboBoxItem>
+						<ComboBoxItem>18</ComboBoxItem>
+						<ComboBoxItem>20</ComboBoxItem>
+						<ComboBoxItem>24</ComboBoxItem>
+						<ComboBoxItem>28</ComboBoxItem>
+						<ComboBoxItem>36</ComboBoxItem>
+					</ComboBox>
+					<Rectangle Width="1" Fill="#DEE2E6" Margin="5,0"/>
+				</StackPanel>
+
+				<!-- Text Format -->
+				<StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="2">
+					<ToggleButton Name="BoldButton"
+                                  Click="OnBoldClick"
+                                  ToolTip.Tip="Bold (Ctrl+B)"
+                                  Padding="8,5"
+                                  FontWeight="Bold">
+						<TextBlock Text="B" />
+					</ToggleButton>
+					<ToggleButton Name="ItalicButton"
+                                  Click="OnItalicClick"
+                                  ToolTip.Tip="Italic (Ctrl+I)"
+                                  Padding="8,5"
+                                  FontStyle="Italic">
+						<TextBlock Text="I" />
+					</ToggleButton>
+					<ToggleButton Name="UnderlineButton"
+                                  Click="OnUnderlineClick"
+                                  ToolTip.Tip="Underline (Ctrl+U)"
+                                  Padding="8,5">
+						<TextBlock Text="U" TextDecorations="Underline"/>
+					</ToggleButton>
+					<Rectangle Width="1" Fill="#DEE2E6" Margin="5,0"/>
+				</StackPanel>
+
+				<!-- Paragraph Format -->
+				<StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="2">
+					<Button Name="AlignLeftButton"
+                            Click="OnAlignLeft"
+                            ToolTip.Tip="Align Left"
+                            Padding="8,5">
+						<TextBlock Text="◀▬" />
+					</Button>
+					<Button Name="AlignCenterButton"
+                            Click="OnAlignCenter"
+                            ToolTip.Tip="Center"
+                            Padding="8,5">
+						<TextBlock Text="▬■▬" />
+					</Button>
+					<Button Name="AlignRightButton"
+                            Click="OnAlignRight"
+                            ToolTip.Tip="Align Right"
+                            Padding="8,5">
+						<TextBlock Text="▬▶" />
+					</Button>
+					<Button Name="AlignJustifyButton"
+                            Click="OnAlignJustify"
+                            ToolTip.Tip="Justify"
+                            Padding="8,5">
+						<TextBlock Text="☰" />
+					</Button>
+					<Rectangle Width="1" Fill="#DEE2E6" Margin="5,0"/>
+				</StackPanel>
+
+				<!-- Lists and Indent -->
+				<StackPanel Grid.Column="3" Orientation="Horizontal" Spacing="2">
+					<Button Name="BulletListButton"
+                            Click="OnBulletList"
+                            ToolTip.Tip="Bullet List"
+                            Padding="8,5">
+						<TextBlock Text="• —" />
+					</Button>
+					<Button Name="NumberListButton"
+                            Click="OnNumberList"
+                            ToolTip.Tip="Numbered List"
+                            Padding="8,5">
+						<TextBlock Text="1. —" />
+					</Button>
+					<Button Name="DecreaseIndentButton"
+                            Click="OnDecreaseIndent"
+                            ToolTip.Tip="Decrease Indent"
+                            Padding="8,5">
+						<TextBlock Text="◀|" />
+					</Button>
+					<Button Name="IncreaseIndentButton"
+                            Click="OnIncreaseIndent"
+                            ToolTip.Tip="Increase Indent"
+                            Padding="8,5">
+						<TextBlock Text="|▶" />
+					</Button>
+					<Rectangle Width="1" Fill="#DEE2E6" Margin="5,0"/>
+				</StackPanel>
+
+				<!-- Special Functions -->
+				<StackPanel Grid.Column="4" Orientation="Horizontal" Spacing="5" HorizontalAlignment="Right">
+					<Button Name="FindReplaceButton"
+                            Click="OnFindReplace"
+                            ToolTip.Tip="Find / Replace (Ctrl+F)"
+                            Padding="8,5">
+						<TextBlock Text="🔍 Find" />
+					</Button>
+					<Button Name="InsertLinkButton"
+                            Click="OnInsertLink"
+                            ToolTip.Tip="Insert Link to Character/Location"
+                            Padding="8,5">
+						<TextBlock Text="🔗 Link" />
+					</Button>
+				</StackPanel>
+			</Grid>
+		</Border>
+
+		<!-- Main Editor Area -->
+		<Border Grid.Row="2"
+                Background="LightGray"
+                Margin="20"
+                Padding="40"
+                CornerRadius="4"
+                BoxShadow="0 2 10 0 #10000000">
+			<ScrollViewer HorizontalScrollBarVisibility="Auto"
+                         VerticalScrollBarVisibility="Auto">
+				<Grid>
+					<!-- Page simulation background -->
+					<Border Background="White"
+                           Width="600"
+                           Height="800"
+                           HorizontalAlignment="Center">
+						<!-- The actual text editor -->
+						<TextBox Name="MainEditor"
+                                Text="{Binding DocumentContent}"
+                                AcceptsReturn="True"
+                                AcceptsTab="True"
+                                TextWrapping="Wrap"
+                                FontFamily="Times New Roman"
+                                FontSize="14"
+                                Padding="40"
+                                BorderThickness="0"
+                                PropertyChanged="OnEditorPropertyChanged"
+                                KeyDown="OnEditorKeyDown"/>
+					</Border>
+				</Grid>
+			</ScrollViewer>
+		</Border>
+
+		<!-- Status Bar -->
+		<Border Grid.Row="3"
+                Background="#F8F9FA"
+                Padding="10,5"
+                BorderBrush="#DEE2E6"
+                BorderThickness="0,1,0,0">
+			<Grid ColumnDefinitions="Auto,Auto,*,Auto,Auto">
+				<TextBlock Grid.Column="0"
+                          Text="{Binding WordCount, StringFormat='Words: {0}'}"
+                          Margin="0,0,20,0"
+                          VerticalAlignment="Center"/>
+				<TextBlock Grid.Column="1"
+                          Text="{Binding CharCount, StringFormat='Characters: {0}'}"
+                          Margin="0,0,20,0"
+                          VerticalAlignment="Center"/>
+				<TextBlock Grid.Column="2"
+                          Text="{Binding StatusMessage}"
+                          FontStyle="Italic"
+                          Foreground="#6C757D"
+                          VerticalAlignment="Center"/>
+				<TextBlock Grid.Column="3"
+                          Text="{Binding LastSaved, StringFormat='Last saved: {0:HH:mm:ss}'}"
+                          Margin="0,0,20,0"
+                          VerticalAlignment="Center"/>
+				<CheckBox Grid.Column="4"
+                         Content="Auto-save"
+                         IsChecked="{Binding AutoSaveEnabled}"
+                         VerticalAlignment="Center"/>
+			</Grid>
+		</Border>
+	</Grid>
+</UserControl>

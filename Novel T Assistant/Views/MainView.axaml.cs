@@ -16,12 +16,24 @@ public partial class MainView : UserControl
     // Navigation to Text Editor
     private async void OnTextEditorClick(object sender, PointerPressedEventArgs e)
     {
-        // TODO: Navigate to text editor view
-        ShowNotImplementedDialog("Text Editor");
+        var owner = this.VisualRoot as Window;
 
-        // When implemented:
-        // var window = new TextEditorWindow();
-        // window.Show();
+        // Create the text editor view
+        var view = new TextEditorView();
+
+        var window = new Window
+        {
+            Title = "Novel T Assistant - Text Editor",
+            Content = view,
+            Width = 1000,
+            Height = 700,
+            WindowStartupLocation = WindowStartupLocation.CenterOwner
+        };
+
+        if (owner is not null)
+            window.Show(); // Use Show() instead of ShowDialog() so it's not modal
+        else
+            window.Show();
     }
 
     // Navigation to Chapter Planner
